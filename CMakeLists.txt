@@ -9,5 +9,6 @@ find_package(SFML COMPONENTS Graphics Audio REQUIRED)
 
 include_directories("/opt/homebrew/Cellar/sfml/3.0.0_1/include")
 
-add_executable(3-match main.cpp)
+add_executable(3-match main.cpp
+        configuration.h)
 target_link_libraries(3-match SFML::Graphics SFML::Audio)
