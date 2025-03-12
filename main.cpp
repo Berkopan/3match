@@ -14,8 +14,8 @@ struct gem {
 void swap(gem g1, gem g2) {
     std::swap(g1.column,g2.column);
     std::swap(g1.row, g2.row);
-    std::swap(g1.x, g2.x);
-    std::swap(g1.y, g2.y);
+    // std::swap(g1.x, g2.x);
+    // std::swap(g1.y, g2.y);
 
     grid[g1.row][g1.column] = g1;
     grid[g2.row][g2.column] = g2;
@@ -67,6 +67,19 @@ int main()
                     if (-1 <= final_i - in_i && final_i - in_i <= 1) {
                         swap(grid[in_i][in_j], grid[final_i][final_j]);
                     }
+                }
+            }
+        }
+
+        for (int i = 0; i < 9; ++i) {
+            for (int j = 0; j < 9; ++j) {
+                gem &g = grid[i][j];
+                int dx,dy;
+                for (int n = 0; n < SWAP_SPEED; ++n) {
+                    dx = g.x - (j * CELL_SIZE * SCALE - offset);
+                    dy = g.y - (i * CELL_SIZE * SCALE - offset);
+                    if (dx) g.x -= dx/abs(dx);
+                    if (dy) g.y -= dy/abs(dy);
                 }
             }
         }

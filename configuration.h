@@ -7,5 +7,6 @@ const float SCALE = 5.0f;
 const int GEM_SIZE = 12;
 const int SCALED_GEM_SIZE = GEM_SIZE * SCALE;
 const float offset = (SCALED_GEM_SIZE - CELL_SIZE * SCALE) / 2.0f;
+const float SWAP_SPEED = 4;
 
 #endif
