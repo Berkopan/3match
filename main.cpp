@@ -43,7 +43,7 @@ int main()
         }
     }
 
-    int in_i,in_j,final_i,final_j = -1;
+    int init_i,init_j,final_i,final_j = -1;
     bool isMoving, isSwap = false;
     while (window.isOpen()) {
         while (const std::optional<Event> event = window.pollEvent()) {
@@ -51,23 +51,22 @@ int main()
                 window.close();
 
             if (auto mouseEvent = event->getIf<Event::MouseButtonPressed>()) {
-                in_i = mouseEvent->position.y / (CELL_SIZE * SCALE);
-                in_j = mouseEvent->position.x / (CELL_SIZE * SCALE);
-                std::cout << grid[in_i][in_j].match;
+                init_i = mouseEvent->position.y / (CELL_SIZE * SCALE);
+                init_j = mouseEvent->position.x / (CELL_SIZE * SCALE);
             }
             if (auto mouseEvent = event->getIf<Event::MouseButtonReleased>()) {
                 final_i = mouseEvent->position.y / (CELL_SIZE * SCALE);
                 final_j = mouseEvent->position.x / (CELL_SIZE * SCALE);
-                if (0 <= in_i && in_i < BOARD_SIZE && 0 <= in_j && in_j < BOARD_SIZE && 0 <= final_i && final_i < BOARD_SIZE && 0 <= final_j && final_j < BOARD_SIZE) {
-                    if (in_i == final_i && in_j != final_j) {
-                        if (-1 <= final_j - in_j && final_j - in_j <= 1) {
+                if (0 <= init_i && init_i < BOARD_SIZE && 0 <= init_j && init_j < BOARD_SIZE && 0 <= final_i && final_i < BOARD_SIZE && 0 <= final_j && final_j < BOARD_SIZE) {
+                    if (init_i == final_i && init_j != final_j) {
+                        if (-1 <= final_j - init_j && final_j - init_j <= 1) {
                             isSwap = true;
-                            swap(grid[in_i][in_j], grid[final_i][final_j]);
+                            swap(grid[init_i][init_j], grid[final_i][final_j]);
                         }
-                    } else if (in_j == final_j && in_i != final_i) {
-                        if (-1 <= final_i - in_i && final_i - in_i <= 1) {
+                    } else if (init_j == final_j && init_i != final_i) {
+                        if (-1 <= final_i - init_i && final_i - init_i <= 1) {
                             isSwap = true;
-                            swap(grid[in_i][in_j], grid[final_i][final_j]);
+                            swap(grid[init_i][init_j], grid[final_i][final_j]);
                         }
                     }
                 }
@@ -108,6 +107,24 @@ int main()
             }
         }
 
+        int score = 0;
+        for (int i = 0; i < BOARD_SIZE; ++i) {
+            for (int j = 0; j < BOARD_SIZE; ++j) {
+                score += grid[i][j].match;
+            }
+        }
+
+        if (score) {
+            init_i = init_j = final_i = final_j = -1;
+        }
+
+        if (isSwap && !isMoving) {
+            if (!score && init_i != -1 && init_j != -1 && final_i != -1 && final_j != -1) {
+                if (final_i - init_i <= 1 && -1 <= final_i - init_i <= 1 && final_j - init_j <= 1 && -1 <= final_j - init_j <= 1)
+                swap(grid[init_i][init_j], grid[final_i][final_j]);
+                isSwap = false;
+            }
+        }
 
         if (!isMoving) {
             for (int i = 0; i < BOARD_SIZE; ++i) {
@@ -117,17 +134,10 @@ int main()
                             swap(grid[n][j], grid[n-1][j]);
                         }
                         grid[0][j].type = std::rand() % 5;
-                        grid[0][j].y = -100;
+                        grid[0][j].y = -SWAP_SPEED * 15 * i;
                         grid[0][j].match = 0;
                     }
                 }
-            }
-        }
-
-        if (isSwap && !isMoving) {
-            if (grid[in_i][in_j].match == 0 && grid[final_i][final_j].match == 0) {
-                swap(grid[in_i][in_j], grid[final_i][final_j]);
-                isSwap = false;
             }
         }
 
