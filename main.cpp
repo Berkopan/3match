@@ -3,6 +3,7 @@
 #include <SFML/Window/Event.hpp>
 #include "configuration.h"
 #include <ctime>
+#include <cstdlib>
 using namespace sf;
 
 struct gem {
@@ -120,8 +121,9 @@ int main()
 
         if (isSwap && !isMoving) {
             if (!score && init_i != -1 && init_j != -1 && final_i != -1 && final_j != -1) {
-                if (final_i - init_i <= 1 && -1 <= final_i - init_i <= 1 && final_j - init_j <= 1 && -1 <= final_j - init_j <= 1)
-                swap(grid[init_i][init_j], grid[final_i][final_j]);
+                if (std::abs(final_i - init_i) + std::abs(final_j - init_j) == 1) {
+                    swap(grid[init_i][init_j], grid[final_i][final_j]);
+                }
                 isSwap = false;
             }
         }
