@@ -23,9 +23,9 @@ The game uses a **9 × 9** grid with five gem types.
 
 ### Build and run
 
-**Requirements:** a C++20 compiler, CMake 3.14+, and SFML 3 (Graphics and Audio components).
+**Requirements:** a C++20 compiler, CMake 3.22+, and an installed SFML 3 package (Graphics and Audio components).
 
-The current `CMakeLists.txt` contains **Homebrew-specific, hard-coded SFML 3.0.0_1 paths** under `/opt/homebrew/Cellar/sfml/`. If your SFML installation uses a different location or version, update `SFML_DIR` and the include directory in `CMakeLists.txt` before building.
+CMake now locates SFML 3 without machine-specific paths. If SFML is installed outside CMake's default search locations, provide its installation prefix when configuring, e.g. `cmake -S . -B build -DCMAKE_PREFIX_PATH=/path/to/sfml`.
 
 ```bash
 git clone https://github.com/Berkopan/3match.git
@@ -58,9 +58,9 @@ Oyunda beş farklı taş türünden oluşan **9 × 9** boyutunda bir tahta bulun
 
 ### Derleme ve çalıştırma
 
-**Gereksinimler:** C++20 destekleyen bir derleyici, CMake 3.14+ ve SFML 3 (Graphics ve Audio bileşenleri).
+**Gereksinimler:** C++20 destekleyen bir derleyici, CMake 3.22+ ve kurulu SFML 3 paketi (Graphics ve Audio bileşenleri).
 
-Mevcut `CMakeLists.txt`, `/opt/homebrew/Cellar/sfml/` altında **Homebrew'e özel, sabit SFML 3.0.0_1 yolları** içeriyor. SFML farklı bir dizine veya sürüme kuruluysa derlemeden önce `CMakeLists.txt` içindeki `SFML_DIR` ve include dizinini güncelle.
+CMake artık SFML 3'ü bilgisayara özgü sabit yollar kullanmadan buluyor. SFML, CMake'in varsayılan arama yolları dışında kuruluysa yapılandırırken kurulum önekini belirt: `cmake -S . -B build -DCMAKE_PREFIX_PATH=/path/to/sfml`.
 
 ```bash
 git clone https://github.com/Berkopan/3match.git
